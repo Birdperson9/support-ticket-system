@@ -9,11 +9,11 @@ import BackButton from '../components/BackButton'
 function NewTicket() {
   const { user } = useSelector((state) => state.auth)
   const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.ticket
+    (state) => state.tickets
   )
 
-  const [name, setName] = useState(user.name)
-  const [email, setEmail] = useState(user.email)
+  const [name] = useState(user.name)
+  const [email] = useState(user.email)
   const [product, setProduct] = useState('iPhone')
   const [description, setDescription] = useState('')
 
@@ -80,7 +80,7 @@ function NewTicket() {
               name='description'
               id='description'
               className='form-control'
-              placeholder='description'
+              placeholder='Description'
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
