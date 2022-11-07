@@ -5,8 +5,6 @@ import { extractErrorMessage } from '../../utils'
 const initialState = {
   tickets: null,
   ticket: null,
-  isError: false,
-  message: '',
 }
 
 // Create new ticket
@@ -66,35 +64,20 @@ export const ticketSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(createTicket.rejected, (state, action) => {
-        state.isError = true
-        state.message = action.payload
-      })
       .addCase(getTickets.pending, (state) => {
         state.ticket = null
       })
       .addCase(getTickets.fulfilled, (state, action) => {
         state.tickets = action.payload
-        state.isError = false
-        state.message = ''
       })
       .addCase(getTickets.rejected, (state, action) => {
-        state.isError = true
         state.message = action.payload
       })
       .addCase(getTicket.fulfilled, (state, action) => {
         state.ticket = action.payload
-        state.isError = false
-        state.message = ''
-      })
-      .addCase(getTicket.rejected, (state, action) => {
-        state.isError = true
-        state.message = action.payload
       })
       .addCase(closeTicket.fulfilled, (state, action) => {
         state.ticket = action.payload
-        state.isError = false
-        state.message = ''
         state.tickets = state.tickets.map((ticket) =>
           ticket._id === action.payload._id ? action.payload : ticket
         )

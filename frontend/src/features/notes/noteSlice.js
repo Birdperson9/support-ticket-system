@@ -4,8 +4,6 @@ import { extractErrorMessage } from '../../utils'
 
 const initialState = {
   notes: null,
-  isError: false,
-  message: '',
 }
 
 // Get ticket notes
@@ -41,23 +39,12 @@ export const noteSlice = createSlice({
     builder
       .addCase(getNotes.pending, (state) => {
         state.notes = null
-        state.isError = false
-        state.message = ''
       })
       .addCase(getNotes.fulfilled, (state, action) => {
         state.notes = action.payload
       })
-      .addCase(getNotes.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-      })
       .addCase(createNote.fulfilled, (state, action) => {
         state.notes.push(action.payload)
-      })
-      .addCase(createNote.rejected, (state, action) => {
-        state.isError = true
-        state.message = action.payload
       })
   },
 })
