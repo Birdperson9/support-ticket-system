@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import ticketService from './ticketService'
+import { extractErrorMessage } from '../../utils'
 
 const initialState = {
   tickets: null,
@@ -16,14 +17,7 @@ export const createTicket = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token
       return await ticketService.createTicket(ticketData, token)
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
   }
 )
@@ -36,14 +30,7 @@ export const getTickets = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token
       return await ticketService.getTickets(token)
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
   }
 )
@@ -56,14 +43,7 @@ export const getTicket = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token
       return await ticketService.getTicket(ticketId, token)
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
   }
 )
@@ -76,14 +56,7 @@ export const closeTicket = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token
       return await ticketService.closeTicket(ticketId, token)
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
   }
 )

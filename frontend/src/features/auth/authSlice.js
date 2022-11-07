@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
+import { extractErrorMessage } from '../../utils'
 
 // Get user from localstorage
 const user = JSON.parse(localStorage.getItem('user'))
@@ -19,14 +20,7 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(user)
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
   }
 )
@@ -36,12 +30,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
     return await authService.login(user)
   } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-
-    return thunkAPI.rejectWithValue(message)
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
   }
 })
 
