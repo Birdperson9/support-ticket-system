@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -7,7 +7,6 @@ import BackButton from '../components/BackButton'
 
 function NewTicket() {
   const { user } = useSelector((state) => state.auth)
-  const { isError, message } = useSelector((state) => state.tickets)
 
   const [name] = useState(user.name)
   const [email] = useState(user.email)
@@ -17,12 +16,6 @@ function NewTicket() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message)
-    }
-  }, [isError, message])
-
   const onSubmit = (e) => {
     e.preventDefault()
     dispatch(createTicket({ product, description }))
@@ -31,6 +24,7 @@ function NewTicket() {
         navigate('/tickets')
         toast.success('New ticket created!')
       })
+      .catch(toast.error)
   }
 
   return (
