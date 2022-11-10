@@ -1,20 +1,11 @@
 const asyncHandler = require('express-async-handler')
 
-const User = require('../models/userModel')
 const Ticket = require('../models/ticketModel')
 
 // @desc   Get user tickets
 // @route  GET /api/tickets
 // @access Private
 const getTickets = asyncHandler(async (req, res) => {
-  // Get user using the id in JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
   const tickets = await Ticket.find({ user: req.user.id })
 
   res.status(200).json(tickets)
@@ -24,14 +15,6 @@ const getTickets = asyncHandler(async (req, res) => {
 // @route  GET /api/ticket/:id
 // @access Private
 const getTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
   const ticket = await Ticket.findById(req.params.id)
 
   if (!ticket) {
@@ -59,12 +42,6 @@ const createTicket = asyncHandler(async (req, res) => {
   }
 
   // Get user using the id in JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
 
   const ticket = await Ticket.create({
     user: req.user.id,
@@ -80,14 +57,6 @@ const createTicket = asyncHandler(async (req, res) => {
 // @route  DELETE /api/ticket/:id
 // @access Private
 const deleteTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
   const ticket = await Ticket.findById(req.params.id)
 
   if (!ticket) {
@@ -109,14 +78,6 @@ const deleteTicket = asyncHandler(async (req, res) => {
 // @route  PUT /api/ticket/:id
 // @access Private
 const updateTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
   const ticket = await Ticket.findById(req.params.id)
 
   if (!ticket) {
